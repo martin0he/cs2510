@@ -93,6 +93,10 @@ class ZTypeWorld extends World implements IZTypeWorld {
     ILoWord addedWords = new ConsLoWord(this.utils.randomIWord(), this.words);
     return new ZTypeWorld(addedWords.move(), this.speed);
   }
+
+  public ZTypeWorld onKeyEvent(String str){
+    
+  }
  
 }
 
