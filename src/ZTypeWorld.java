@@ -95,8 +95,12 @@ class ZTypeWorld extends World implements IZTypeWorld {
     return new ZTypeWorld(addedWords.move(), this.speed);
   }
 
-  public ZTypeWorld onKeyEvent(String key){
-    if (key.equals("poop")){
+  public boolean isActive() {
+    return this.words.isActive();
+  }
+
+  public ZTypeWorld onKeyEvent(String key) {
+    if (key.equals("poop")) {
       return new ZTypeWorld(this.words, this.speed);
     }
   }
@@ -110,6 +114,8 @@ interface ILoWord {
 
   // moves this list of Words
   ILoWord move();
+
+  boolean isActive();
 }
 
 // represents an empty list of words
@@ -132,6 +138,10 @@ class MtLoWord implements ILoWord {
   public ILoWord move() {
     return this;
   }
+
+  public boolean isActive() {
+    return false;
+  }
 }
 
 // represents an non-empty list of words
@@ -140,7 +150,7 @@ class ConsLoWord implements ILoWord {
   ILoWord rest; // rest of the words
 
   // constructor
-  ConsLoWord(Word first, ILoWord rest) {
+  ConsLoWord(IWord first, ILoWord rest) {
     this.first = first;
     this.rest = rest;
   }
@@ -171,16 +181,22 @@ class ConsLoWord implements ILoWord {
   public ILoWord move() {
     return new ConsLoWord(this.first.move(), this.rest.move());
   }
+
+  public boolean isActive() {
+    return this.first.isActive() || this.rest.isActive();
+  }
 }
 
 interface IWord {
   WorldImage draw();
 
   IWord move();
+
+  boolean isActive();
 }
 
 // represents a word
-abstract class Word implements IWord {
+abstract class AWord implements IWord {
   String word; // the word itself
   int x; // its x coordinate
   int y; // its y coordinate
@@ -211,9 +227,15 @@ abstract class Word implements IWord {
 
   // moves the word
   IWord move();
+
+  boolean isActive();
 }
 
 class ActiveWord extends AWord {
+  ActiveWord(String word, int x, int y) {
+    super(word, x, y);
+  }
+
   public WorldImage draw() {
     return new TextImage(this.word, 18, Color.RED);
   }
@@ -221,15 +243,26 @@ class ActiveWord extends AWord {
   public IWord move() {
     return new ActiveWord(this.word, this.x, this.y + 1);
   }
+
+  public boolean isActive() {
+    return true;
+  }
 }
 
 class InactiveWord extends AWord {
+  InactiveWord(String word, int x, int y) {
+    super(word, x, y);
+  }
   public WorldImage draw() {
     return new TextImage(this.word, 18, Color.BLACK);
   }
 
   public IWord move() {
     return new InactiveWord(this.word, this.x, this.y + 1);
+  }
+
+  public boolean isActive() {
+    return false;
   }
 }
 
