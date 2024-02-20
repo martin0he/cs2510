@@ -136,7 +136,7 @@ class MtLoWord implements ILoWord {
 
 // represents an non-empty list of words
 class ConsLoWord implements ILoWord {
-  Word first; // first word in the list
+  IWord first; // first word in the list
   ILoWord rest; // rest of the words
 
   // constructor
