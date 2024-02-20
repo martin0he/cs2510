@@ -166,8 +166,14 @@ class ConsLoWord implements ILoWord {
   }
 }
 
+interface IWord {
+  WorldImage draw();
+
+  IWord move();
+}
+
 // represents a word
-class Word {
+abstract class Word implements IWord {
   String word; // the word itself
   int x; // its x coordinate
   int y; // its y coordinate
@@ -194,14 +200,10 @@ class Word {
    */
 
   // draws the word
-  public WorldImage draw() {
-    return new TextImage(this.word, 18, Color.BLACK);
-  }
+  public WorldImage draw();
 
   // moves the word
-  Word move() {
-    return new Word(this.word, this.x, this.y + 1);
-  }
+  Word move();
 }
 
 // represents class that generates random string
