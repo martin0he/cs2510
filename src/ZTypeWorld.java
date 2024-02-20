@@ -179,7 +179,7 @@ abstract class Word implements IWord {
   int y; // its y coordinate
 
   // constructor
-  Word(String word, int x, int y) {
+  AWord(String word, int x, int y) {
     this.word = word;
     this.x = x;
     this.y = y;
@@ -203,7 +203,27 @@ abstract class Word implements IWord {
   public WorldImage draw();
 
   // moves the word
-  Word move();
+  IWord move();
+}
+
+class ActiveWord extends AWord {
+  public WorldImage draw() {
+    return new TextImage(this.word, 18, Color.RED);
+  }
+
+  public IWord move() {
+    return new ActiveWord(this.word, this.x, this.y + 1);
+  }
+}
+
+class InactiveWord extends AWord {
+  public WorldImage draw() {
+    return new TextImage(this.word, 18, Color.BLACK);
+  }
+
+  public IWord move() {
+    return new InactiveWord(this.word, this.x, this.y + 1);
+  }
 }
 
 // represents class that generates random string
