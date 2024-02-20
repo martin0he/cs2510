@@ -89,13 +89,16 @@ class ZTypeWorld extends World implements IZTypeWorld {
     return new ZTypeWorld(this.words.move(), this.speed);
   }
   
+  // tick function 
   public World onTick() {
     ILoWord addedWords = new ConsLoWord(this.utils.randomIWord(), this.words);
     return new ZTypeWorld(addedWords.move(), this.speed);
   }
 
-  public ZTypeWorld onKeyEvent(String str){
-    
+  public ZTypeWorld onKeyEvent(String key){
+    if (key.equals("poop")){
+      return new ZTypeWorld(this.words, this.speed);
+    }
   }
  
 }
